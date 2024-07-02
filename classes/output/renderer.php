@@ -740,7 +740,7 @@ class renderer extends plugin_renderer_base {
         global $CFG;
         $table = new html_table();
         $table->head = array(
-                
+                html_writer::checkbox('select_all', 0, false, '', array('id' => 'cb_selector')),
                 $this->construct_fullname_head($takedata)
             );
         $table->align = array('left');
@@ -834,6 +834,8 @@ class renderer extends plugin_renderer_base {
                 $fullname .= html_writer::empty_tag('br');
                 $fullname .= $ucdata['warning'];
             }
+            $row->cells[] = html_writer::checkbox("checked_users[]", 0, false, '', array('id' => 'cb_selector'));
+            
             $row->cells[] = $fullname;
             foreach ($extrasearchfields as $field) {
                 $row->cells[] = $user->$field;
@@ -976,12 +978,7 @@ class renderer extends plugin_renderer_base {
         if (true) {
 
             $bulkEditRow = new html_table_row();
-            $cellindex = 0;
-
-            // Creating empty cells on rest of the row to fill space
-            for($cellindex; $cellindex <= 8; $cellindex++){
-                $bulkEditRow->cells[] = '';
-            }
+            $bulkEditRow->cells[] = '';
 
             $bulkEditSelectDropdown = html_writer::start_tag('select', ['name' => 'select']);
             $bulkEditSelectDropdown .= '<option value="">-- SELECT --</option>';
@@ -995,7 +992,12 @@ class renderer extends plugin_renderer_base {
             $bulkEditRow->cells[] = $bulkEditSelectDropdown;
             $bulkEditRow->cells[] = $bulkEditSubmitButton;
 
+            $cellindex = 0;
 
+            // Creating empty cells on rest of the row to fill space
+            for($cellindex; $cellindex <= 8; $cellindex++){
+                $bulkEditRow->cells[] = '';
+            }
     
             $table->data[] = $bulkEditRow;
         }
