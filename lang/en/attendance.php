@@ -701,5 +701,7 @@ $string['approve'] = 'Approve justification';
 $string['discart'] = 'Discart justification';
 $string['reset'] = 'Reset Attandance';
 $string['resetsessiondata'] = 'Reset user session';
+$string['setstatustopresent'] = 'Set selection to Present';
+$string['setstatustoabsent'] = 'Set selection to Absent';
+$string['removeusersession'] = 'Remove selection';
 $string[''] = '';
-
