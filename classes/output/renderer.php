@@ -315,6 +315,7 @@ class renderer extends plugin_renderer_base {
      * @param manage_data $sessdata
      * @return string
      */
+    
     protected function render_sess_manage_table(manage_data $sessdata) {
         $this->page->requires->js_init_call('M.mod_attendance.init_manage');
 
@@ -740,6 +741,7 @@ class renderer extends plugin_renderer_base {
         global $CFG;
         $table = new html_table();
         $table->head = array(
+                html_writer::checkbox('cb_selector', 0, false, '', array('id' => 'cb_selector')),
                 $this->construct_fullname_head($takedata)
             );
         $table->align = array('left');
@@ -822,6 +824,7 @@ class renderer extends plugin_renderer_base {
 
         $i = 0;
         foreach ($takedata->users as $user) {
+            
             $i++;
             $row = new html_table_row();
             $fullname = html_writer::link($takedata->url_view(array('studentid' => $user->id)), fullname($user));
@@ -832,6 +835,8 @@ class renderer extends plugin_renderer_base {
                 $fullname .= html_writer::empty_tag('br');
                 $fullname .= $ucdata['warning'];
             }
+            $row->cells[] = html_writer::checkbox("checked_user[]", 0, false, '', array('id' => 'cb_selector'));
+
             $row->cells[] = $fullname;
             foreach ($extrasearchfields as $field) {
                 $row->cells[] = $user->$field;
