@@ -740,6 +740,7 @@ class renderer extends plugin_renderer_base {
         global $CFG;
         $table = new html_table();
         $table->head = array(
+                
                 $this->construct_fullname_head($takedata)
             );
         $table->align = array('left');
@@ -970,7 +971,37 @@ class renderer extends plugin_renderer_base {
             
             $table->data[] = $row;
         }
-        return html_writer::table($table);
+
+        
+        if (true) {
+
+            $bulkEditRow = new html_table_row();
+            $cellindex = 0;
+
+            // Creating empty cells on rest of the row to fill space
+            for($cellindex; $cellindex <= 8; $cellindex++){
+                $bulkEditRow->cells[] = '';
+            }
+
+            $bulkEditSelectDropdown = html_writer::start_tag('select', ['name' => 'select']);
+            $bulkEditSelectDropdown .= '<option value="">-- SELECT --</option>';
+            $bulkEditSelectDropdown .= '<option value="setToPresent">'. get_string("setstatustopresent") .'</option>';
+            $bulkEditSelectDropdown .= '<option value="setToAbsent">'. get_string("setstatustoabsent") .'</option>';
+            $bulkEditSelectDropdown .= '<option value="resetSessions">'. get_string("removeusersession") .'</option>';
+            $bulkEditSelectDropdown .= html_writer::end_tag('select');
+    
+            $bulkEditSubmitButton = html_writer::tag('button', get_string('submit'), array('type' => 'submit', 'class' => 'btn btn-secondary', 'colspan' => 1));
+    
+            $bulkEditRow->cells[] = $bulkEditSelectDropdown;
+            $bulkEditRow->cells[] = $bulkEditSubmitButton;
+
+
+    
+            $table->data[] = $bulkEditRow;
+        }
+
+        $form = html_writer::tag('form', html_writer::table($table), array('method' => 'post', 'action' => $bulkEditUrl));
+        return $form;
     }
 
     /**
