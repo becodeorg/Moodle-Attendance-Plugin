@@ -982,9 +982,9 @@ class renderer extends plugin_renderer_base {
 
             $bulkEditSelectDropdown = html_writer::start_tag('select', ['name' => 'select']);
             $bulkEditSelectDropdown .= '<option value="">-- SELECT --</option>';
-            $bulkEditSelectDropdown .= '<option value="setToPresent">'. get_string("setstatustopresent") .'</option>';
-            $bulkEditSelectDropdown .= '<option value="setToAbsent">'. get_string("setstatustoabsent") .'</option>';
-            $bulkEditSelectDropdown .= '<option value="resetSessions">'. get_string("removeusersession") .'</option>';
+            $bulkEditSelectDropdown .= '<option value="setToPresent">'. get_string('setstatustopresent', 'attendance') .'</option>';
+            $bulkEditSelectDropdown .= '<option value="setToAbsent">'. get_string('setstatustoabsent', 'attendance') .'</option>';
+            $bulkEditSelectDropdown .= '<option value="resetSessions">'. get_string('removeusersession', 'attendance') .'</option>';
             $bulkEditSelectDropdown .= html_writer::end_tag('select');
     
             $bulkEditSubmitButton = html_writer::tag('button', get_string('submit'), array('type' => 'submit', 'class' => 'btn btn-secondary', 'colspan' => 1));
