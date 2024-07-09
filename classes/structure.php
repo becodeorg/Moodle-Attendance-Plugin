@@ -768,7 +768,9 @@ class mod_attendance_structure {
     
         $formdata = (array)$data;
 
-        $bulkSelectOption = $formdata["selectoption"] ?? $formdata["selectoption"] || 0;
+        echo '<pre>';
+        print_r($formdata);
+        echo '</pre>';
 
         foreach ($formdata as $key => $value) {
             if (preg_match('/^user(\d+)$/', $key, $matches)) {
@@ -785,24 +787,40 @@ class mod_attendance_structure {
                 $sesslog[$sid]->sessionid = $this->pageparams->sessionid;
                 $sesslog[$sid]->timetaken = $now;
                 $sesslog[$sid]->takenby = $USER->id;
+                $sesslog[$sid]->checkout_time = strtotime(str_replace("/","-",$formdata['checkout_time'][$sid])); 
+                $sesslog[$sid]->checkin_time = strtotime(str_replace("/","-",$formdata['checkin_time'][$sid]));
+
                 if (isset($formdata['location'][$sid])) {
                     $sesslog[$sid]->location = $formdata['location'][$sid];
                 }
-                $sesslog[$sid]->bulk_select_option = $bulkSelectOption;
+
+                // if(isset($formdata['checked_users'][$sid]) && $formdata['checked_users'][$sid]) {
                 if(isset($formdata['select_all'])) {
-                    $sesslog[$sid]->checked_user = 1;
-                } else if (isset($formdata['checked_users'][$sid])) {
-                    $sesslog[$sid]->checked_users = $formdata['checked_users'][$sid];
-                } else {
-                    $sesslog[$sid]->checked_user = 0;
+
+                    if ($formdata['selectoption'] === 'setToPresent') {
+                        $sesslog[$sid]->statusid = 5;
+                        $sesslog[$sid]->checkin_time = $formdata['startOfSession'];
+                    }
+                    if ($formdata['selectoption'] === 'setToAbsent') {
+                        $sesslog[$sid]->statusid = 6;
+                        $sesslog[$sid]->checkin_time = strtotime(0);
+                    }
+                    if ($formdata['selectoption'] === 'resetSessions') {
+                        $sesslog[$sid]->checkin_time = null;
+                        $sesslog[$sid]->checkout_time = null;
+                        $sesslog[$sid]->statusid = null;
+                        $sesslog[$sid]->location = null;
+                    }
+                        
                 }
-                $sesslog[$sid]->checkin_time = strtotime(str_replace("/","-",$formdata['checkin_time'][$sid]));
-                $sesslog[$sid]->checkout_time = strtotime(str_replace("/","-",$formdata['checkout_time'][$sid]));  
             }
         }
+        echo '<pre>';
+        print_r($sesslog);
+        echo '</pre>';
         $this->save_log($sesslog);
     }
-    
+
 
     /**
      * Helper function to save attendance and trigger events.
