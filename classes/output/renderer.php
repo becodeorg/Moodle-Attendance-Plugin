@@ -838,6 +838,9 @@ class renderer extends plugin_renderer_base {
 
         $i = 0;
         foreach ($takedata->users as $user) {
+
+            // Find user select radio buttons
+
             $i++;
             $row = new html_table_row();
             $fullname = html_writer::link($takedata->url_view(array('studentid' => $user->id)), fullname($user));
