@@ -834,7 +834,7 @@ class renderer extends plugin_renderer_base {
                 $fullname .= html_writer::empty_tag('br');
                 $fullname .= $ucdata['warning'];
             }
-            $row->cells[] = html_writer::checkbox("checked_users[]", 0, false, '', array('id' => 'cb_selector'));
+            $row->cells[] = html_writer::checkbox("checked_users[$user->id]", 1, false, '', array('id' => 'cb_selector'));
             
             $row->cells[] = $fullname;
             foreach ($extrasearchfields as $field) {
@@ -980,17 +980,14 @@ class renderer extends plugin_renderer_base {
             $bulkEditRow = new html_table_row();
             $bulkEditRow->cells[] = '';
 
-            $bulkEditSelectDropdown = html_writer::start_tag('select', ['name' => 'select']);
-            $bulkEditSelectDropdown .= '<option value="">-- SELECT --</option>';
+            $bulkEditSelectDropdown = html_writer::start_tag('select', ['name' => 'selectoption']);
+            $bulkEditSelectDropdown .= '<option value="0">-- SELECT --</option>';
             $bulkEditSelectDropdown .= '<option value="setToPresent">'. get_string('setstatustopresent', 'attendance') .'</option>';
             $bulkEditSelectDropdown .= '<option value="setToAbsent">'. get_string('setstatustoabsent', 'attendance') .'</option>';
             $bulkEditSelectDropdown .= '<option value="resetSessions">'. get_string('removeusersession', 'attendance') .'</option>';
             $bulkEditSelectDropdown .= html_writer::end_tag('select');
-    
-            $bulkEditSubmitButton = html_writer::tag('button', get_string('submit'), array('type' => 'submit', 'class' => 'btn btn-secondary', 'colspan' => 1));
-    
+        
             $bulkEditRow->cells[] = $bulkEditSelectDropdown;
-            $bulkEditRow->cells[] = $bulkEditSubmitButton;
 
             $cellindex = 0;
 
@@ -1002,8 +999,22 @@ class renderer extends plugin_renderer_base {
             $table->data[] = $bulkEditRow;
         }
 
-        $form = html_writer::tag('form', html_writer::table($table), array('method' => 'post', 'action' => $bulkEditUrl));
-        return $form;
+        // $params = array(
+        //     'id'        => 'currentdate',
+        //     'action'    => $fcontrols->url_path(),
+        //     'method'    => 'post',
+        //     'sessid'    => $takedata->pageparams->sessionid,
+        // );
+
+        // $bulkEditUrl = new moodle_url('/mod/attendance/attendance.php', array(
+        //     'sessid' => $takedata->pageparams->sessionid,
+        //     'returnurl' => '/mod/attendance/attendance.php',
+        //     'action' => 'bulkEdit' // New parameter for checkout action
+        // ));
+
+        // $form = html_writer::tag('form', html_writer::table($table), 
+        //                 array('method' => 'post', 'action' => $bulkEditUrl));
+        return html_writer::table($table);
     }
 
     /**

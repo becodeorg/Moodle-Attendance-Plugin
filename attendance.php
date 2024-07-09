@@ -25,6 +25,8 @@
 require_once(dirname(__FILE__).'/../../config.php');
 require_once(dirname(__FILE__).'/locallib.php');
 require_once($CFG->libdir.'/formslib.php');
+
+// example form
 require_once(dirname(__FILE__).'/studentlocation_form.php');
 
 $pageparams = new mod_attendance_sessions_page_params();
@@ -48,6 +50,12 @@ $att = new mod_attendance_structure($attendance, $cm, $course, $PAGE->context, $
 require_login($course, true, $cm);
 
 $action = optional_param('action', '', PARAM_ALPHA);
+
+if ($action == 'bulkEdit') {
+    echo "Here we are!";
+    die();
+}
+
 if ($action == 'approve') {
     $sessid = required_param('sessid', PARAM_INT); 
     $learnerid = required_param('learnerid', PARAM_INT); 
