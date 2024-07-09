@@ -43,6 +43,8 @@ use moodle_url;
 use context_module;
 use tabobject;
 use js_writer;
+use DateTime;
+
 
 /**
  * Attendance module renderer class
@@ -505,6 +507,19 @@ class renderer extends plugin_renderer_base {
     protected function render_take_data(take_data $takedata) {
         user_preference_allow_ajax_update('mod_attendance_statusdropdown', PARAM_TEXT);
 
+        // sessdate = start of session (unix timestamp)
+        // $startOfSession
+
+        echo '<pre>';
+        print_r($takedata);
+        echo '</pre>';
+        
+        $date = userdate($takedata->sessioninfo->sessdate, get_string('strftimedate'));
+        $time = attendance_strftimehm($takedata->sessioninfo->sessdate);
+        $dateTime = new DateTime($date . " " . $time);
+        $dateTime = (string) $dateTime->getTimestamp();
+
+
         $controls = $this->render_attendance_take_controls($takedata);
         $table = html_writer::start_div('no-overflow');
         if ($takedata->pageparams->viewmode == mod_attendance_take_page_params::SORTED_LIST) {
@@ -512,9 +527,11 @@ class renderer extends plugin_renderer_base {
         } else {
             $table .= $this->render_attendance_take_grid($takedata);
         }
+        
         $table .= html_writer::input_hidden_params($takedata->url(array('sesskey' => sesskey(),
                                                                         'page' => $takedata->pageparams->page,
-                                                                        'perpage' => $takedata->pageparams->perpage)));
+                                                                        'perpage' => $takedata->pageparams->perpage,
+                                                                        'startOfSession' => $dateTime)));
         $table .= html_writer::end_div();
         $params = array(
                 'type'  => 'submit',
@@ -740,7 +757,7 @@ class renderer extends plugin_renderer_base {
         global $CFG;
         $table = new html_table();
         $table->head = array(
-                html_writer::checkbox('select_all', 0, false, '', array('id' => 'cb_selector')),
+                html_writer::checkbox('select_all', 1, false, '', array('id' => 'cb_selector')),
                 $this->construct_fullname_head($takedata)
             );
         $table->align = array('left');
@@ -997,6 +1014,7 @@ class renderer extends plugin_renderer_base {
             }
     
             $table->data[] = $bulkEditRow;
+            
         }
 
         // $params = array(
