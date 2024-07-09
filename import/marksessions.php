@@ -85,6 +85,7 @@ if ($form->is_cancelled()) {
              'grouptype' => $pageparams->grouptype)));
     return;
 } else if ($data = $form->get_data()) {
+    
     if ($data->confirm) {
         $importid = $data->importid;
         $importer = new \mod_attendance\import\marksessions(null, $att, null, null, $importid, $data, true);

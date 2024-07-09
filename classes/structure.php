@@ -767,9 +767,18 @@ class mod_attendance_structure {
         $sesslog = array();
     
         $formdata = (array)$data;
+
+        $bulkSelectOption = $formdata["selectoption"] ?? $formdata["selectoption"] || 0;
+        // echo "<pre>";
+        // print_r($formdata);
+        // echo "</pre>";
+
         foreach ($formdata as $key => $value) {
             if (preg_match('/^user(\d+)$/', $key, $matches)) {
                 $sid = $matches[1];
+                // echo "<pre>";
+                // print_r($sid);
+                // echo "</pre>";
                 if (!is_numeric($sid)) { // Sanity check on $sid
                     throw new moodle_exception('nonnumericid', 'attendance');
                 }
@@ -784,10 +793,21 @@ class mod_attendance_structure {
                 if (isset($formdata['location'][$sid])) {
                     $sesslog[$sid]->location = $formdata['location'][$sid];
                 }
+                $sesslog[$sid]->bulk_select_option = $bulkSelectOption;
+                if(isset($formdata['select_all'])) {
+                    $sesslog[$sid]->checked_user = 1;
+                } else if (isset($formdata['checked_users'][$sid])) {
+                    $sesslog[$sid]->checked_users = $formdata['checked_users'][$sid];
+                } else {
+                    $sesslog[$sid]->checked_user = 0;
+                }
                 $sesslog[$sid]->checkin_time = strtotime(str_replace("/","-",$formdata['checkin_time'][$sid]));
                 $sesslog[$sid]->checkout_time = strtotime(str_replace("/","-",$formdata['checkout_time'][$sid]));  
             }
         }
+        echo "<pre>";
+        print_r($sesslog);
+        echo "</pre>";
         $this->save_log($sesslog);
     }
     
