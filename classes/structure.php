@@ -769,16 +769,11 @@ class mod_attendance_structure {
         $formdata = (array)$data;
 
         $bulkSelectOption = $formdata["selectoption"] ?? $formdata["selectoption"] || 0;
-        // echo "<pre>";
-        // print_r($formdata);
-        // echo "</pre>";
 
         foreach ($formdata as $key => $value) {
             if (preg_match('/^user(\d+)$/', $key, $matches)) {
                 $sid = $matches[1];
-                // echo "<pre>";
-                // print_r($sid);
-                // echo "</pre>";
+
                 if (!is_numeric($sid)) { // Sanity check on $sid
                     throw new moodle_exception('nonnumericid', 'attendance');
                 }
@@ -805,9 +800,6 @@ class mod_attendance_structure {
                 $sesslog[$sid]->checkout_time = strtotime(str_replace("/","-",$formdata['checkout_time'][$sid]));  
             }
         }
-        echo "<pre>";
-        print_r($sesslog);
-        echo "</pre>";
         $this->save_log($sesslog);
     }
     
