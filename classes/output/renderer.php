@@ -509,10 +509,6 @@ class renderer extends plugin_renderer_base {
 
         // sessdate = start of session (unix timestamp)
         // $startOfSession
-
-        echo '<pre>';
-        print_r($takedata);
-        echo '</pre>';
         
         $date = userdate($takedata->sessioninfo->sessdate, get_string('strftimedate'));
         $time = attendance_strftimehm($takedata->sessioninfo->sessdate);
@@ -813,6 +809,7 @@ class renderer extends plugin_renderer_base {
         $cell = new html_table_cell(html_writer::div($this->output->render($this->statusdropdown()), 'setallstatuses'));
         $row->cells[] = $cell;
         foreach ($takedata->statuses as $st) {
+            
             $attribs = array(
                 'id' => 'radiocheckstatus'.$st->id,
                 'type' => 'radio',
@@ -991,47 +988,26 @@ class renderer extends plugin_renderer_base {
             $table->data[] = $row;
         }
 
-        
-        if (true) {
+        $bulkEditRow = new html_table_row();
+        $bulkEditRow->cells[] = '';
 
-            $bulkEditRow = new html_table_row();
-            $bulkEditRow->cells[] = '';
-
-            $bulkEditSelectDropdown = html_writer::start_tag('select', ['name' => 'selectoption']);
-            $bulkEditSelectDropdown .= '<option value="0">-- SELECT --</option>';
-            $bulkEditSelectDropdown .= '<option value="setToPresent">'. get_string('setstatustopresent', 'attendance') .'</option>';
-            $bulkEditSelectDropdown .= '<option value="setToAbsent">'. get_string('setstatustoabsent', 'attendance') .'</option>';
-            $bulkEditSelectDropdown .= '<option value="resetSessions">'. get_string('removeusersession', 'attendance') .'</option>';
-            $bulkEditSelectDropdown .= html_writer::end_tag('select');
-        
-            $bulkEditRow->cells[] = $bulkEditSelectDropdown;
-
-            $cellindex = 0;
-
-            // Creating empty cells on rest of the row to fill space
-            for($cellindex; $cellindex <= 8; $cellindex++){
-                $bulkEditRow->cells[] = '';
-            }
+        $bulkEditSelectDropdown = html_writer::start_tag('select', ['name' => 'selectoption']);
+        $bulkEditSelectDropdown .= '<option value="0">-- SELECT --</option>';
+        $bulkEditSelectDropdown .= '<option value="setToPresent">'. get_string('setstatustopresent', 'attendance') .'</option>';
+        $bulkEditSelectDropdown .= '<option value="setToAbsent">'. get_string('setstatustoabsent', 'attendance') .'</option>';
+        $bulkEditSelectDropdown .= '<option value="resetSessions">'. get_string('removeusersession', 'attendance') .'</option>';
+        $bulkEditSelectDropdown .= html_writer::end_tag('select');
     
-            $table->data[] = $bulkEditRow;
-            
+        $bulkEditRow->cells[] = $bulkEditSelectDropdown;
+
+        $cellindex = 0;
+
+        // Creating empty cells on rest of the row to fill space
+        for($cellindex; $cellindex <= 8; $cellindex++){
+            $bulkEditRow->cells[] = '';
         }
+        $table->data[] = $bulkEditRow;
 
-        // $params = array(
-        //     'id'        => 'currentdate',
-        //     'action'    => $fcontrols->url_path(),
-        //     'method'    => 'post',
-        //     'sessid'    => $takedata->pageparams->sessionid,
-        // );
-
-        // $bulkEditUrl = new moodle_url('/mod/attendance/attendance.php', array(
-        //     'sessid' => $takedata->pageparams->sessionid,
-        //     'returnurl' => '/mod/attendance/attendance.php',
-        //     'action' => 'bulkEdit' // New parameter for checkout action
-        // ));
-
-        // $form = html_writer::tag('form', html_writer::table($table), 
-        //                 array('method' => 'post', 'action' => $bulkEditUrl));
         return html_writer::table($table);
     }
 
