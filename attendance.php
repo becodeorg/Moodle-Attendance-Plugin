@@ -51,11 +51,6 @@ require_login($course, true, $cm);
 
 $action = optional_param('action', '', PARAM_ALPHA);
 
-if ($action == 'bulkEdit') {
-    echo "Here we are!";
-    die();
-}
-
 if ($action == 'approve') {
     $sessid = required_param('sessid', PARAM_INT); 
     $learnerid = required_param('learnerid', PARAM_INT); 
