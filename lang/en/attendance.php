@@ -553,6 +553,7 @@ $string['statuses'] = 'Statuses';
 $string['statusset'] = 'Status set {$a}';
 $string['statussetsettings'] = 'Status set';
 $string['statusunselected'] = 'unselected';
+$string['statusselectedusers'] = 'selected users';
 $string['statustotalcount'] = 'Status {$a} - Total count';
 $string['statustotalcountcurrentweek'] = 'Status {$a} - Total count for current week';
 $string['statustotalcountpreviousweek'] = 'Status {$a} - Total count for previous week';
