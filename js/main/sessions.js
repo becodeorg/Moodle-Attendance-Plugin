@@ -1,6 +1,7 @@
 const allCheckboxes = document.querySelectorAll('#cb_selector');
 const sessionTime = document.querySelector('.sessionTimeString').value;
 const sessionStatuses = document.querySelectorAll('.statusOption');
+const sessionLocationSelector = document.querySelector('[name="setalllocations-select"]');
 
 const checkAll = allCheckboxes[0];
 console.log(sessionTime);
@@ -135,4 +136,37 @@ sessionStatuses.forEach(st => {
         }
 
     })
+})
+
+// Update locations
+sessionLocationSelector.addEventListener('change', () => {
+
+    const sessionStatusSelector = document.querySelector('[name="setallstatus-select"]').value;
+    console.log(sessionStatusSelector)
+
+    if (sessionStatusSelector == "all") {
+        document.querySelectorAll(`[name^="location["]`).forEach(location => {
+            location.value = sessionLocationSelector.value
+            console.log(location)
+        });
+
+    } else if (sessionStatusSelector === "selectedusers") {
+        const tableRows = document.querySelector('.generaltable').querySelectorAll('tr');
+
+        tableRows.forEach(row => {
+            let checkbox = row.querySelector('#cb_selector');
+
+            if (checkbox) {
+                if (checkbox.checked) {
+                    let userId = row.querySelector(`[name^="checked_users["]`)
+                                    .name
+                                    .replace('checked_users[', '')
+                                    .replace(']','')
+
+                    let locationField = row.querySelector(`[name="location[${userId}]"]`)
+                    locationField.value = sessionLocationSelector.value
+                }
+            }
+        })
+    }
 })
