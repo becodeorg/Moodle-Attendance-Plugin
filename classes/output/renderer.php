@@ -812,20 +812,6 @@ class renderer extends plugin_renderer_base {
                 'class' => "st{$st->id} status statusOption",
             );
             $row->cells[] = html_writer::empty_tag('input', $attribs);
-            // Select all radio buttons of the same status.
-            // $this->page->requires->js_amd_inline("
-            //     require(['jquery'], function($) {
-            //         $('#radiocheckstatus".$st->id."').click(function(e) {
-            //             if ($('select[name=\"setallstatus-select\"] option:selected').val() == 'all') {
-            //                 $('#attendancetakeform').find('.st".$st->id."').prop('checked', true);
-            //                 M.util.set_user_preference('mod_attendance_statusdropdown','all');
-            //             }
-            //             else {
-            //                 $('#attendancetakeform').find('input:indeterminate.st".$st->id."').prop('checked', true);
-            //                 M.util.set_user_preference('mod_attendance_statusdropdown','unselected');
-            //             }
-            //         });
-            //     });");
         }
 
         $date = userdate($takedata->sessioninfo->sessdate, get_string('strftimedate'));
