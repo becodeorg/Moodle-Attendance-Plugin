@@ -842,7 +842,13 @@ class renderer extends plugin_renderer_base {
                     });
                 });");
         }
-        $row->cells[] = '';
+
+        $date = userdate($takedata->sessioninfo->sessdate, get_string('strftimedate'));
+        $time = attendance_strftimehm($takedata->sessioninfo->sessdate);
+        $dateTimeString = (string) $date . " " . $time;
+
+        $row->cells[] = html_writer::empty_tag('input', ['type' => 'hidden', 'name' => 'sessTime',
+        'value' => $dateTimeString, 'class' => 'sessionTimeString']);;
         $row->cells[] = '';
         $row->cells[] = '';
         $row->cells[] = '';
