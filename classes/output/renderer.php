@@ -779,21 +779,6 @@ class renderer extends plugin_renderer_base {
             $table->head[] = $st->acronym;
             $table->align[] = 'center';
             $table->size[] = '20px';
-            // JS to select all radios of this status and prevent default behaviour of # link.
-            $this->page->requires->js_amd_inline("
-                require(['jquery'], function($) {
-                    $('#checkstatus".$st->id."').click(function(e) {
-                     if ($('select[name=\"setallstatus-select\"] option:selected').val() == 'all') {
-                            $('#attendancetakeform').find('.st".$st->id."').prop('checked', true);
-                            M.util.set_user_preference('mod_attendance_statusdropdown','all');
-                        }
-                        else {
-                            $('#attendancetakeform').find('input:indeterminate.st".$st->id."').prop('checked', true);
-                            M.util.set_user_preference('mod_attendance_statusdropdown','unselected');
-                        }
-                        e.preventDefault();
-                    });
-                });");
 
         }
         $table->head[] = get_string('remarks', 'attendance');
