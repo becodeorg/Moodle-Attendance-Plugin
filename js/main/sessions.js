@@ -132,8 +132,6 @@ sessionStatuses.forEach(st => {
 
                 })
                 break;
-            default :
-
         }
 
     })
