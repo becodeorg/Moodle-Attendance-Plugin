@@ -750,6 +750,28 @@ class renderer extends plugin_renderer_base {
     }
 
     /**
+     * get locationdropdown
+     *
+     * @return \single_select
+     */
+    private function locationdropdown() {
+        if (empty($pref)) {
+            $pref = 'null';
+        }
+        $options = array(
+            'null' => '',
+            'athome' => get_string('athome', 'attendance'),
+            'oncampus' => get_string('oncampus', 'attendance')
+        );
+
+        $select = new \single_select(new \moodle_url('/'), 'setalllocations-select', $options,
+            $pref, null, 'setalllocations-select');
+        $select->label = get_string('setalllocations', 'attendance');
+
+        return $select;
+    }
+
+    /**
      * Render take list.
      *
      * @param take_data $takedata
@@ -822,7 +844,7 @@ class renderer extends plugin_renderer_base {
         'value' => $dateTimeString, 'class' => 'sessionTimeString']);;
         $row->cells[] = '';
         $row->cells[] = '';
-        $row->cells[] = '';
+        $row->cells[] = html_writer::div($this->output->render($this->locationdropdown()), 'setalllocations');
         $row->cells[] = '';
         $table->data[] = $row;
 

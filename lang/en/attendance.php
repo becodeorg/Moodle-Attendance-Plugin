@@ -528,6 +528,7 @@ $string['sessiontypeshort'] = 'Type';
 $string['sessionunknowngroup'] = 'A session specifies unknown group(s): {$a}';
 $string['sessionupdated'] = 'Session successfully updated';
 $string['set_by_student'] = 'Self-recorded';
+$string['setalllocations'] = 'Set locations to';
 $string['setallstatuses'] = 'Set status for';
 $string['setallstatusesto'] = 'Set status to «{$a}»';
 $string['setperiod'] = 'Specified time in minutes to release IP';
