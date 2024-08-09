@@ -995,26 +995,6 @@ class renderer extends plugin_renderer_base {
             $table->data[] = $row;
         }
 
-        $bulkEditRow = new html_table_row();
-        $bulkEditRow->cells[] = '';
-
-        $bulkEditSelectDropdown = html_writer::start_tag('select', ['name' => 'selectoption']);
-        $bulkEditSelectDropdown .= '<option value="0">-- SELECT --</option>';
-        $bulkEditSelectDropdown .= '<option value="setToPresent">'. get_string('setstatustopresent', 'attendance') .'</option>';
-        $bulkEditSelectDropdown .= '<option value="setToAbsent">'. get_string('setstatustoabsent', 'attendance') .'</option>';
-        $bulkEditSelectDropdown .= '<option value="resetSessions">'. get_string('removeusersession', 'attendance') .'</option>';
-        $bulkEditSelectDropdown .= html_writer::end_tag('select');
-    
-        $bulkEditRow->cells[] = $bulkEditSelectDropdown;
-
-        $cellindex = 0;
-
-        // Creating empty cells on rest of the row to fill space
-        for($cellindex; $cellindex <= 8; $cellindex++){
-            $bulkEditRow->cells[] = '';
-        }
-        $table->data[] = $bulkEditRow;
-
         return html_writer::table($table);
     }
 
