@@ -507,6 +507,9 @@ class renderer extends plugin_renderer_base {
     protected function render_take_data(take_data $takedata) {
         user_preference_allow_ajax_update('mod_attendance_statusdropdown', PARAM_TEXT);
 
+        // javascript
+        $this->page->requires->js('/mod/attendance/js/main/sessions.js');
+
         // sessdate = start of session (unix timestamp)
         // $startOfSession
         
@@ -734,6 +737,7 @@ class renderer extends plugin_renderer_base {
             $pref = 'unselected';
         }
         $options = array('all' => get_string('statusall', 'attendance'),
+            'selectedusers' => get_string('statusselectedusers', 'attendance'),
             'unselected' => get_string('statusunselected', 'attendance'));
 
         $select = new \single_select(new \moodle_url('/'), 'setallstatus-select', $options,
@@ -808,6 +812,7 @@ class renderer extends plugin_renderer_base {
 
         $cell = new html_table_cell(html_writer::div($this->output->render($this->statusdropdown()), 'setallstatuses'));
         $row->cells[] = $cell;
+        $row->cells[] = '';
         foreach ($takedata->statuses as $st) {
             
             $attribs = array(
