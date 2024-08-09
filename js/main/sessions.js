@@ -48,7 +48,7 @@ sessionStatuses.forEach(st => {
         
 
         switch (sessionStatusSelector) {
-            case 'all' : 
+            case 'all' :
                 const formattedTimestamp = formatTime(sessionTime);
                 attendanceTakeForm.querySelectorAll(`.st${statusCode}`).forEach(sessionStatus => {
                     sessionStatus.checked = true;
@@ -67,12 +67,12 @@ sessionStatuses.forEach(st => {
 
                 // Late
                 if (statusCode == 7) {
-
+                    // ...
                 }
 
                 // Excused
                 if (statusCode == 8){
-
+                    // ...
                 }
 
                 // Absent
@@ -108,12 +108,14 @@ sessionStatuses.forEach(st => {
 
                             // Late
                             if (statusCode == 7) {
-
+                                let checkinField = row.querySelector(`[name="checkin_time[${userId}]"]`);
+                                checkinField.value = '';
                             }
 
                             // Excused
                             if (statusCode == 8){
-
+                                let checkinField = row.querySelector(`[name="checkin_time[${userId}]"]`);
+                                checkinField.value = '';
                             }
 
                             // Absent
