@@ -736,9 +736,11 @@ class renderer extends plugin_renderer_base {
         if (empty($pref)) {
             $pref = 'unselected';
         }
-        $options = array('all' => get_string('statusall', 'attendance'),
+        $options = array(
+            'all' => get_string('statusall', 'attendance'),
             'selectedusers' => get_string('statusselectedusers', 'attendance'),
-            'unselected' => get_string('statusunselected', 'attendance'));
+            'unselected' => get_string('statusunselected', 'attendance')
+        );
 
         $select = new \single_select(new \moodle_url('/'), 'setallstatus-select', $options,
             $pref, null, 'setallstatus-select');
@@ -773,8 +775,8 @@ class renderer extends plugin_renderer_base {
             $table->align[] = 'left';
         }
         foreach ($takedata->statuses as $st) {
-            $table->head[] = html_writer::link("#", $st->acronym, array('id' => 'checkstatus'.$st->id,
-                'title' => get_string('setallstatusesto', 'attendance', $st->description)));
+            
+            $table->head[] = $st->acronym;
             $table->align[] = 'center';
             $table->size[] = '20px';
             // JS to select all radios of this status and prevent default behaviour of # link.
@@ -809,10 +811,12 @@ class renderer extends plugin_renderer_base {
         foreach ($extrasearchfields as $field) {
             $row->cells[] = '';
         }
+        $row->cells[] = '';
 
+        // dropdown statusses
         $cell = new html_table_cell(html_writer::div($this->output->render($this->statusdropdown()), 'setallstatuses'));
         $row->cells[] = $cell;
-        $row->cells[] = '';
+
         foreach ($takedata->statuses as $st) {
             
             $attribs = array(
@@ -838,6 +842,10 @@ class renderer extends plugin_renderer_base {
                     });
                 });");
         }
+        $row->cells[] = '';
+        $row->cells[] = '';
+        $row->cells[] = '';
+        $row->cells[] = '';
         $row->cells[] = '';
         $table->data[] = $row;
 
