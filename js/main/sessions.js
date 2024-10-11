@@ -73,7 +73,9 @@ sessionStatuses.forEach(st => {
 
                 // Excused
                 if (statusCode == 8){
-                    // ...
+                    attendanceTakeForm.querySelectorAll('[name^="checkin_time["]').forEach(field => {
+                        field.value = "01-01-1970 01:00";
+                    });
                 }
 
                 // Absent

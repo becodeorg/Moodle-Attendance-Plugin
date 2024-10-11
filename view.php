@@ -150,5 +150,18 @@ $PAGE->navbar->add(get_string('attendancereport', 'attendance'));
 $output = $PAGE->get_renderer('mod_attendance');
 
 echo $output->header();
-echo $output->render($userdata);
+// Detect if the user is on a mobile device based on User-Agent.
+function is_mobile() {
+    return preg_match('/Mobi|Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i', $_SERVER['HTTP_USER_AGENT']);
+}
+
+if (is_mobile()) {
+    //handle access denied code
+    echo '<div class="alert alert-danger" role="alert">
+            <strong>Access Denied:</strong> You can only open this page on Desktop/Laptop.
+            </div>';
+} else {
+    echo $output->render($userdata);
+}
+
 echo $output->footer();
